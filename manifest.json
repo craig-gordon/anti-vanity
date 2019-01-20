@@ -1,0 +1,22 @@
+{
+  "name": "Anti-Vanity",
+  "description" : "Prevent vanity searching and other time- and energy-wasting activities.",
+  "version": "1.0",
+  "manifest_version": 2,
+  "permissions": [
+    "activeTab"
+  ],
+  "options_page": "options.html",
+  "icons": {
+    "16": "mirror16.png",
+    "32": "mirror32.png",
+    "64": "mirror64.png",
+    "128": "mirror128.png"
+  },
+  "content_scripts": [
+    {
+      "matches": ["https://twitter.com/*"],
+      "js": ["lockSearchInput.js"]
+    }
+  ]
+}
