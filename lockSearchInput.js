@@ -1,7 +1,6 @@
 let searchContainer = document.getElementById('global-nav-search');
 let searchButton = document.getElementsByClassName('nav-search')[0];
 let searchInput = document.getElementById('search-query');
-let searchInputDefaultBorderColor = getComputedStyle(searchInput).borderColor;
 
 let customMessageListItem = document.createElement('li');
 customMessageListItem.className = 'custom';
@@ -10,9 +9,8 @@ customMessageListItem.textContent = 'Dissolve the ego, young padawan.';
 let defaultBorderColor;
 
 const applyShakeAnimation = (element) => {
-  let elementClasses = element.className;
-  element.className = elementClasses + ' shake';
-  setTimeout(() => element.className = elementClasses, 820);
+  element.classList.add('shake');
+  setTimeout(() => element.classList.remove('shake'), 820);
 };
 
 const addCustomMessageListItem = () => {
@@ -40,11 +38,11 @@ searchButton.addEventListener('click', function(e) {
 
 searchInput.addEventListener('keyup', function() {
   if (this.value === 'cyghfer') {
-    this.style.borderColor = 'red';
+    this.classList.add('red-border');
     document.getElementsByClassName('dropdown-menu typeahead')[0].classList.add('hide');
     addCustomMessageListItem();
   } else {
-    this.style.borderColor = searchInputDefaultBorderColor;
+    this.classList.remove('red-border');
     document.getElementsByClassName('dropdown-menu typeahead')[0].classList.remove('hide');
     removeCustomMessageListItem();
   }

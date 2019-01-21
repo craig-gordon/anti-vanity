@@ -23,6 +23,10 @@
   }
 }
 
+.red-border {
+  border-color: red !important;
+}
+
 .dropdown-menu.typeahead.hide .js-selectable {
   display: none !important;
 }
