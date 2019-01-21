@@ -17,7 +17,9 @@
   "content_scripts": [
     {
       "matches": ["https://twitter.com/*"],
-      "js": ["lockSearchInput.js", "options.js"]
+      "run_at": "document_idle",
+      "css": ["lockSearchInput.css"],
+      "js": ["lockSearchInput.js"]
     }
   ]
 }

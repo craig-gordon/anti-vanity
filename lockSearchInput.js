@@ -1,27 +1,58 @@
+let searchContainer = document.getElementById('global-nav-search');
 let searchButton = document.getElementsByClassName('nav-search')[0];
 let searchInput = document.getElementById('search-query');
+let searchInputDefaultBorderColor = getComputedStyle(searchInput).borderColor;
+
+let customMessageListItem = document.createElement('li');
+customMessageListItem.className = 'custom';
+customMessageListItem.textContent = 'Dissolve the ego, young padawan.';
+
 let defaultBorderColor;
 
+const applyShakeAnimation = (element) => {
+  let elementClasses = element.className;
+  element.className = elementClasses + ' shake';
+  setTimeout(() => element.className = elementClasses, 820);
+};
+
+const addCustomMessageListItem = () => {
+  let searchDropdownList = document.getElementsByClassName('typeahead-items typeahead-accounts social-context js-typeahead-accounts block4 has-results')[0];
+  if (searchDropdownList.lastChild.className === 'custom') {
+    return;
+  }
+  searchDropdownList.appendChild(customMessageListItem);
+};
+
+const removeCustomMessageListItem = () => {
+  let searchDropdownList = document.getElementsByClassName('typeahead-items typeahead-accounts social-context js-typeahead-accounts block4 has-results')[0];
+  if (searchDropdownList && searchDropdownList.lastChild.className === 'custom') {
+    searchDropdownList.removeChild(searchDropdownList.lastChild);
+  }
+};
+
 searchButton.addEventListener('click', function(e) {
-  console.log('form e:', e);
   if (searchInput.value === 'cyghfer') {
     e.stopImmediatePropagation();
     e.preventDefault();
+    applyShakeAnimation(searchContainer);
   }
-})
+});
 
 searchInput.addEventListener('keyup', function() {
-  defaultBorderColor === undefined ? defaultBorderColor = this.style.borderColor : null;
   if (this.value === 'cyghfer') {
     this.style.borderColor = 'red';
+    document.getElementsByClassName('dropdown-menu typeahead')[0].classList.add('hide');
+    addCustomMessageListItem();
   } else {
-    this.style.borderColor = defaultBorderColor;
+    this.style.borderColor = searchInputDefaultBorderColor;
+    document.getElementsByClassName('dropdown-menu typeahead')[0].classList.remove('hide');
+    removeCustomMessageListItem();
   }
 });
 
 searchInput.addEventListener('keydown', function(e) {
-  console.log('e:', e);
-  if (e.which === 13 || e.keyCode === 13) {
+  if (this.value === 'cyghfer' && (e.which === 13 || e.keyCode === 13)) {
     e.preventDefault();
+    applyShakeAnimation(searchContainer);
   }
 });
