@@ -4,7 +4,9 @@
   "version": "1.0",
   "manifest_version": 2,
   "permissions": [
-    "activeTab",
+    "http://*/",
+    "https://*/",
+    "tabs",
     "storage"
   ],
   "options_page": "options.html",
@@ -14,12 +16,7 @@
     "64": "mirror64.png",
     "128": "mirror128.png"
   },
-  "content_scripts": [
-    {
-      "matches": ["https://twitter.com/*"],
-      "run_at": "document_idle",
-      "css": ["lockSearchInput.css"],
-      "js": ["lockSearchInput.js"]
-    }
-  ]
+  "background": {
+    "scripts": ["background.js"]
+  }
 }

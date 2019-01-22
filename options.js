@@ -1,9 +1,9 @@
 const addSiteToBlacklist = (siteName) => {
-  chrome.storage.sync.get(['blacklistSites'], result => {
+  chrome.storage.sync.get(['antiVanitySites'], result => {
     console.log('result:', result);
-    sites = Object.keys(result).length > 0 ? result.blacklistSites : [];
+    sites = Object.keys(result).length > 0 ? result.antiVanitySites : [];
 
-    chrome.storage.sync.set({'blacklistSites': [...sites, siteName]});
+    chrome.storage.sync.set({'antiVanitySites': [...sites, siteName]});
   })
 }
 
@@ -15,9 +15,9 @@ submitButton.addEventListener('click', () => {
 
 let sitelistElem = document.getElementById('sitelist');
 
-chrome.storage.sync.get(['blacklistSites'], result => {
+chrome.storage.sync.get(['antiVanitySites'], result => {
   console.log('result:', result);
-  let sites = Object.keys(result).length > 0 ? result.blacklistSites : [];
+  let sites = Object.keys(result).length > 0 ? result.antiVanitySites : [];
 
   sites.forEach(site => {
     let siteLi = document.createElement('li');
