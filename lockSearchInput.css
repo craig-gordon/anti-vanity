@@ -22,10 +22,21 @@
 }
 
 .red-border {
-  border-color: red !important;
+  border: 2px solid red !important;
 }
 
+/* TWITTER */
+.dropdown-menu.typeahead.hide .block0,
+.dropdown-menu.typeahead.hide .block1,
+.dropdown-menu.typeahead.hide .block2,
+.dropdown-menu.typeahead.hide .block3,
 .dropdown-menu.typeahead.hide .js-selectable {
+  display: none !important;
+}
+
+/* GOOGLE */
+.UUbT9.hide .sbct,
+.UUbT9.hide .VlcLAe {
   display: none !important;
 }
 

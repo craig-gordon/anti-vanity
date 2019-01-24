@@ -13,6 +13,12 @@ chrome.storage.sync.set({
       active: false
     },
     {
+      name: 'Reddit',
+      host: 'reddit.com',
+      icon: '<i class="fab fa-reddit-alien"></i>',
+      active: false
+    },
+    {
       name: 'Tumblr',
       host: 'tumblr.com',
       icon: '<i class="fab fa-tumblr"></i>',

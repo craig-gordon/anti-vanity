@@ -13,10 +13,12 @@ chrome.tabs.onUpdated.addListener((tabId, changeInfo) => {
       let urlIncluded = sites.filter((site) => url.includes(site.host)).length > 0;
 
       if (urlIncluded) {
-        console.log('scripts running');
+        console.log('executing scripts, url:', url);
         window.antiVanityScriptsLoaded[tabId.toString()] = true;
-        chrome.tabs.insertCSS(tabId, {file: "lockSearchInput.css"});
-        chrome.tabs.executeScript(tabId, {file: "lockSearchInput.js"});
+        chrome.tabs.insertCSS(tabId, {file: 'lockSearchInput.css'});
+        chrome.tabs.executeScript(tabId, {file: 'lockSearchInput.js'}, () => {
+          chrome.tabs.sendMessage(tabId, {url});
+        });
       }
     });
   });

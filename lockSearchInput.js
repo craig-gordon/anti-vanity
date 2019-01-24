@@ -1,62 +1,148 @@
-let phrases;
-
-chrome.storage.sync.get(['antiVanityPhrases'], (result) => {
-  phrases = Object.keys(result).length > 0 ? result.antiVanityPhrases : [];
-});
-
-let searchContainer = document.getElementById('global-nav-search');
-let searchButton = document.getElementsByClassName('nav-search')[0];
-let searchInput = document.getElementById('search-query');
-
-let customMessageListItem = document.createElement('li');
-customMessageListItem.className = 'custom';
-customMessageListItem.textContent = 'Dissolve the ego, young padawan.';
-
-let defaultBorderColor;
-
-const applyShakeAnimation = (element) => {
-  element.classList.add('shake');
-  setTimeout(() => element.classList.remove('shake'), 820);
+const layouts = {
+  'Twitter': {
+    'container': {
+      method: 'getElementById',
+      str: 'global-nav-search',
+      isArr: false
+    },
+    'button': {
+      method: 'getElementsByClassName',
+      str: 'nav-search',
+      isArr: true
+    },
+    'input': {
+      method: 'getElementById',
+      str: 'search-query',
+      isArr: false
+    },
+    'getsRedBorder': {
+      method: 'getElementById',
+      str: 'search-query',
+      isArr: false
+    },
+    'ddContainer': {
+      method: 'getElementsByClassName',
+      str: 'dropdown-menu typeahead',
+      isArr: true
+    },
+    'ddList': {
+      method: 'getElementsByClassName',
+      str: 'typeahead-items typeahead-accounts social-context js-typeahead-accounts block4 has-results',
+      isArr: true
+    }
+  },
+  'Google': {
+    'container': {
+      method: 'getElementsByClassName',
+      str: 'RNNXgb',
+      isArr: true
+    },
+    'button': {
+      method: 'getElementsByName',
+      str: 'btnK',
+      isArr: true
+    },
+    'input': {
+      method: 'getElementsByName',
+      str: 'q',
+      isArr: true
+    },
+    'getsRedBorder': {
+      method: 'getElementsByClassName',
+      str: 'RNNXgb',
+      isArr: true
+    },
+    'ddContainer': {
+      method: 'getElementsByClassName',
+      str: 'UUbT9',
+      isArr: true
+    },
+    'ddList': {
+      method: 'getElementsByClassName',
+      str: 'aajZCb',
+      isArr: true
+    }
+  }
 };
 
-const addCustomMessageListItem = () => {
-  let searchDropdownList = document.getElementsByClassName('typeahead-items typeahead-accounts social-context js-typeahead-accounts block4 has-results')[0];
-  if (searchDropdownList.lastChild.className === 'custom') {
-    return;
-  }
-  searchDropdownList.appendChild(customMessageListItem);
+const getElement = (site, type) => {
+  let idx = 0;
+  if (site === 'Google' && type === 'button') idx = 1; 
+  return layouts[site][type].isArr
+    ? document[layouts[site][type].method](layouts[site][type].str)[idx]
+    : document[layouts[site][type].method](layouts[site][type].str);
 };
 
-const removeCustomMessageListItem = () => {
-  let searchDropdownList = document.getElementsByClassName('typeahead-items typeahead-accounts social-context js-typeahead-accounts block4 has-results')[0];
-  if (searchDropdownList && searchDropdownList.lastChild.className === 'custom') {
-    searchDropdownList.removeChild(searchDropdownList.lastChild);
-  }
-};
+chrome.runtime.onMessage.addListener((message, sender, sendResponse) => {
+  console.log('message:', message);
+  let url = message.url;
 
-searchButton.addEventListener('click', function(e) {
-  if (phrases.includes(searchInput.value)) {
-    e.stopImmediatePropagation();
-    e.preventDefault();
-    applyShakeAnimation(searchContainer);
-  }
-});
+  chrome.storage.sync.get(['antiVanitySites', 'antiVanityPhrases'], (result) => {
+    let site = result.antiVanitySites.filter((site) => url.includes(site.host))[0].name;
+    console.log('site:', site);
+    let phrases = result.antiVanityPhrases;
 
-searchInput.addEventListener('keyup', function() {
-  if (phrases.includes(this.value)) {
-    this.classList.add('red-border');
-    document.getElementsByClassName('dropdown-menu typeahead')[0].classList.add('hide');
-    addCustomMessageListItem();
-  } else {
-    this.classList.remove('red-border');
-    document.getElementsByClassName('dropdown-menu typeahead')[0].classList.remove('hide');
-    removeCustomMessageListItem();
-  }
-});
+    let container = getElement(site, 'container');
+    let button = getElement(site, 'button');
+    let input = getElement(site, 'input');
+  
+    let customMessageListItem = document.createElement('li');
+    customMessageListItem.className = 'custom';
+    customMessageListItem.textContent = 'Dissolve the ego, young padawan.';
+    
 
-searchInput.addEventListener('keydown', function(e) {
-  if (phrases.includes(this.value) && (e.which === 13 || e.keyCode === 13)) {
-    e.preventDefault();
-    applyShakeAnimation(searchContainer);
-  }
+    // METHODS
+  
+    const applyShakeAnimation = (element) => {
+      element.classList.add('shake');
+      setTimeout(() => element.classList.remove('shake'), 820);
+    };
+  
+    const addCustomMessageListItem = () => {
+      let dropdown = getElement(site, 'ddList');
+      if (dropdown.lastChild.className === 'custom') {
+        return;
+      }
+      dropdown.appendChild(customMessageListItem);
+    };
+  
+    const removeCustomMessageListItem = () => {
+      let dropdown = getElement(site, 'ddList');
+      if (dropdown && dropdown.lastChild.className === 'custom') {
+        dropdown.removeChild(dropdown.lastChild);
+      }
+    };
+
+
+    // EVENT LISTENERS
+  
+    button.addEventListener('click', function(e) {
+      console.log('this:', this, 'e:', e);
+      if (phrases.includes(input.value)) {
+        e.stopImmediatePropagation();
+        e.preventDefault();
+        applyShakeAnimation(container);
+      }
+    });
+  
+    input.addEventListener('keyup', function() {
+      if (phrases.includes(this.value)) {
+        getElement(site, 'getsRedBorder').classList.add('red-border');
+        getElement(site, 'ddContainer').classList.add('hide');
+        addCustomMessageListItem();
+      } else {
+        getElement(site, 'getsRedBorder').classList.remove('red-border');
+        getElement(site, 'ddContainer').classList.remove('hide');
+        removeCustomMessageListItem();
+      }
+    });
+  
+    input.addEventListener('keydown', function(e) {
+      if (phrases.includes(this.value) && e.key === 'Enter') {
+        e.stopImmediatePropagation();
+        e.preventDefault();
+        applyShakeAnimation(container);
+      }
+    });
+  });
 });
