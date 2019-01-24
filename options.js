@@ -1,25 +1,3 @@
-const addSiteToBlacklist = (newSite) => {
-  chrome.storage.sync.get(['antiVanitySites'], (result) => {
-    let sites = Object.keys(result).length > 0 ? result.antiVanitySites : [];
-
-    chrome.storage.sync.set({'antiVanitySites': [...sites, newSite]});
-  })
-};
-
-const addPhraseToBlacklist = (newPhrase) => {
-  chrome.storage.sync.get(['antiVanityPhrases'], (result) => {
-    let phrases = Object.keys(result).length > 0 ? result.antiVanitySites : [];
-
-    chrome.storage.sync.set({'antiVanityPhrases': [...phrases, newPhrase]});
-  })
-};
-
-// let submitButton = document.getElementById('submit');
-
-// submitButton.addEventListener('click', () => {
-//   addSiteToBlacklist(document.getElementById('input').value);
-// });
-
 chrome.storage.sync.set({
   'antiVanitySites': [
     {
@@ -42,11 +20,53 @@ chrome.storage.sync.set({
     }
   ],
   'antiVanityPhrases': [
-    'cyghfer'
+    'cyghfer',
+    'krysrltal',
+    'wq'
   ]
 });
 
-let sitelist = document.getElementById('sitelist');
+let phraseInput = document.getElementsByClassName('phrases-input')[0];
+
+phraseInput.addEventListener('keydown', function(e) {
+  if (e.key === 'Enter') {
+    chrome.storage.sync.get(['antiVanityPhrases'], (result) => {
+      let phrases = result.antiVanityPhrases;
+      if (phrases.includes(this.value)) {
+        this.value = '';
+        return;
+      }
+      let newPhrasesArr = phrases.concat(this.value);
+      chrome.storage.sync.set({'antiVanityPhrases': newPhrasesArr}, () => {
+        let phraseList = document.getElementById('phraselist');
+        let phraseListItem = document.createElement('li');
+        phraseListItem.className = 'phrase';
+        phraseListItem.innerHTML = `<span></span><span>${this.value}</span>`;
+        let closeIcon = document.createElement('i');
+        closeIcon.className = 'fas fa-times-circle';
+        closeIcon.addEventListener('click', function() {
+          chrome.storage.sync.get(['antiVanityPhrases'], (result) => {
+            let phrases = result.antiVanityPhrases;
+            let idx;
+            phrases.forEach((phrase, i) => {
+              if (this.previousSibling.innerHTML === phrase) idx = i;
+            });
+            let newPhrasesArr = phrases.slice(0, idx).concat(phrases.slice(idx + 1));
+    
+            chrome.storage.sync.set({'antiVanityPhrases': newPhrasesArr}, () => {
+              this.parentElement.remove();
+            });
+          });
+        });
+        phraseListItem.appendChild(closeIcon);
+        phraseList.appendChild(phraseListItem);
+        this.value = '';
+      });
+    })
+  }
+})
+
+let siteList = document.getElementById('sitelist');
 
 chrome.storage.sync.get(['antiVanitySites'], (result) => {
   let sites = Object.keys(result).length > 0 ? result.antiVanitySites : [];
@@ -63,14 +83,14 @@ chrome.storage.sync.get(['antiVanitySites'], (result) => {
           if (this.innerHTML.includes(site.name)) idx = i;
         });
         let newSiteObj = Object.assign(sites[idx], {'active': !sites[idx].active});
-        let newSiteArr = sites.slice(0, idx).concat([newSiteObj], sites.slice(idx + 1));
+        let newSitesArr = sites.slice(0, idx).concat([newSiteObj], sites.slice(idx + 1));
         
-        chrome.storage.sync.set({'antiVanitySites': newSiteArr}, () => {
+        chrome.storage.sync.set({'antiVanitySites': newSitesArr}, () => {
           this.className = this.className === 'site active' ? 'site inactive' : 'site active';
         });
       })
     })
-    sitelist.appendChild(siteListItem);
+    siteList.appendChild(siteListItem);
   });
 });
 
@@ -82,7 +102,24 @@ chrome.storage.sync.get(['antiVanityPhrases'], (result) => {
   phrases.forEach((phrase) => {
     let phraseListItem = document.createElement('li');
     phraseListItem.className = 'phrase';
-    phraseListItem.innerHTML = `<span></span><span>${phrase}</span><i class="fas fa-times-circle" />`;
+    phraseListItem.innerHTML = `<span></span><span>${phrase}</span>`;
+    let closeIcon = document.createElement('i');
+    closeIcon.className = 'fas fa-times-circle';
+    closeIcon.addEventListener('click', function() {
+      chrome.storage.sync.get(['antiVanityPhrases'], (result) => {
+        let phrases = result.antiVanityPhrases;
+        let idx;
+        phrases.forEach((phrase, i) => {
+          if (this.previousSibling.innerHTML === phrase) idx = i;
+        });
+        let newPhrasesArr = phrases.slice(0, idx).concat(phrases.slice(idx + 1));
+
+        chrome.storage.sync.set({'antiVanityPhrases': newPhrasesArr}, () => {
+          this.parentElement.remove();
+        });
+      });
+    });
+    phraseListItem.appendChild(closeIcon);
     phraseList.appendChild(phraseListItem);
   });
 });
