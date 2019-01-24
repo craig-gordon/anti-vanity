@@ -1,3 +1,9 @@
+let phrases;
+
+chrome.storage.sync.get(['antiVanityPhrases'], (result) => {
+  phrases = Object.keys(result).length > 0 ? result.antiVanityPhrases : [];
+});
+
 let searchContainer = document.getElementById('global-nav-search');
 let searchButton = document.getElementsByClassName('nav-search')[0];
 let searchInput = document.getElementById('search-query');
@@ -29,7 +35,7 @@ const removeCustomMessageListItem = () => {
 };
 
 searchButton.addEventListener('click', function(e) {
-  if (searchInput.value === 'cyghfer') {
+  if (phrases.includes(searchInput.value)) {
     e.stopImmediatePropagation();
     e.preventDefault();
     applyShakeAnimation(searchContainer);
@@ -37,7 +43,7 @@ searchButton.addEventListener('click', function(e) {
 });
 
 searchInput.addEventListener('keyup', function() {
-  if (this.value === 'cyghfer') {
+  if (phrases.includes(this.value)) {
     this.classList.add('red-border');
     document.getElementsByClassName('dropdown-menu typeahead')[0].classList.add('hide');
     addCustomMessageListItem();
@@ -49,7 +55,7 @@ searchInput.addEventListener('keyup', function() {
 });
 
 searchInput.addEventListener('keydown', function(e) {
-  if (this.value === 'cyghfer' && (e.which === 13 || e.keyCode === 13)) {
+  if (phrases.includes(this.value) && (e.which === 13 || e.keyCode === 13)) {
     e.preventDefault();
     applyShakeAnimation(searchContainer);
   }

@@ -1,14 +1,23 @@
 <!DOCTYPE html>
 <html>
   <head>
+    <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.6.3/css/all.css" integrity="sha384-UHRtZLI+pbxtHCWp1t77Bi1L4ZtiqrqD80Kn4Z8NTSRyMA2Fd33n5dQ8lWUE00s/" crossorigin="anonymous">
+    <link rel='stylesheet' href='options.css'></link>
   </head>
   <body>
-    <h3>This is the options page.</h3>
-    <label>Enter sites to blacklist</label>
-    <input id='input' />
-    <button id='submit'>Submit</button>
-    <ul id='sitelist'>
-    </ul>
+    <img src='mirror128.png' />
+    <h1>This is the options page.</h1>
+    <div class='container'>
+      <div class='column'>
+        <div class='column-header'><h2>Sites</h2></div>
+        <ul id='sitelist'></ul>
+      </div>
+      <div class='column'>
+        <div class='column-header'><h2>Phrases</h2></div>
+        <input class='phrases-input' placeholder='Enter phrase to blacklist' />
+        <ul id='phraselist'></ul>
+      </div>
+    </div>
     <script src='options.js'></script>
   </body>
 </html>
