@@ -55,6 +55,21 @@ chrome.storage.sync.get(['antiVanitySites'], (result) => {
     let siteListItem = document.createElement('li');
     siteListItem.className = site.active ? 'site active' : 'site inactive';
     siteListItem.innerHTML = `${site.icon}<span>${site.name}</span>`;
+    siteListItem.addEventListener('click', function() {
+      chrome.storage.sync.get(['antiVanitySites'], (result) => {
+        let sites = result.antiVanitySites;
+        let idx;
+        sites.forEach((site, i) => {
+          if (this.innerHTML.includes(site.name)) idx = i;
+        });
+        let newSiteObj = Object.assign(sites[idx], {'active': !sites[idx].active});
+        let newSiteArr = sites.slice(0, idx).concat([newSiteObj], sites.slice(idx + 1));
+        
+        chrome.storage.sync.set({'antiVanitySites': newSiteArr}, () => {
+          this.className = this.className === 'site active' ? 'site inactive' : 'site active';
+        });
+      })
+    })
     sitelist.appendChild(siteListItem);
   });
 });

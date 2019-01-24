@@ -72,6 +72,7 @@ li.site {
   border-radius: 4px;
   padding: 10px 0;
   margin: 0 4% 4% 4%;
+  cursor: pointer;
 }
 
 li.site.active {
