@@ -40,6 +40,18 @@
   display: none !important;
 }
 
+/* REDDIT */
+.TMMvbwyeh9yuHKmQWHrE3.heh8xf-0.joLCja.s1afd82k-0.gOGIEl.hide .typeahead {
+  display: none !important;
+}
+
+/* TUMBLR */
+#popover_search.hide .blog.search_results_section,
+#popover_search.hide .search_subheading,
+#popover_search.hide .popover_menu_item {
+  display: none !important;
+}
+
 .custom {
   padding: 7px 15px 6px 10px;
   font-weight: bold;

@@ -10,19 +10,19 @@ chrome.storage.sync.set({
       name: 'Google',
       host: 'google.com',
       icon: '<i class="fab fa-google"></i>',
-      active: false
+      active: true
     },
     {
       name: 'Reddit',
       host: 'reddit.com',
       icon: '<i class="fab fa-reddit-alien"></i>',
-      active: false
+      active: true
     },
     {
       name: 'Tumblr',
       host: 'tumblr.com',
       icon: '<i class="fab fa-tumblr"></i>',
-      active: false
+      active: true
     }
   ],
   'antiVanityPhrases': [

@@ -62,10 +62,67 @@ const layouts = {
       str: 'aajZCb',
       isArr: true
     }
+  },
+  'Reddit': {
+    'container': {
+      method: 'getElementById',
+      str: 'SearchDropdown',
+      isArr: false
+    },
+    'button': null,
+    'input': {
+      method: 'getElementsByName',
+      str: 'q',
+      isArr: true
+    },
+    'getsRedBorder': {
+      method: 'getElementById',
+      str: 'header-search-bar',
+      isArr: false
+    },
+    'ddContainer': {
+      method: 'getElementsByClassName',
+      str: 'TMMvbwyeh9yuHKmQWHrE3 heh8xf-0 joLCja s1afd82k-0 gOGIEl',
+      isArr: true
+    },
+    'ddList': {
+      method: 'getElementsByClassName',
+      str: 'TMMvbwyeh9yuHKmQWHrE3 heh8xf-0 joLCja s1afd82k-0 gOGIEl',
+      isArr: true
+    }
+  },
+  'Tumblr': {
+    'container': {
+      method: 'getElementById',
+      str: 'search_field',
+      isArr: false
+    },
+    'button': null,
+    'input': {
+      method: 'getElementById',
+      str: 'search_query',
+      isArr: false
+    },
+    'getsRedBorder': {
+      method: 'getElementById',
+      str: 'search_query',
+      isArr: false
+    },
+    'ddContainer': {
+      method: 'getElementById',
+      str: 'popover_search',
+      isArr: false
+    },
+    'ddList': {
+      method: 'getElementsByClassName',
+      str: 'tag search_results_section',
+      isArr: true
+    }
   }
 };
 
 const getElement = (site, type) => {
+  if (!layouts[site][type]) return null;
   let idx = 0;
   if (site === 'Google' && type === 'button') idx = 1; 
   return layouts[site][type].isArr
@@ -116,16 +173,18 @@ chrome.runtime.onMessage.addListener((message, sender, sendResponse) => {
 
     // EVENT LISTENERS
   
-    button.addEventListener('click', function(e) {
-      console.log('this:', this, 'e:', e);
-      if (phrases.includes(input.value)) {
-        e.stopImmediatePropagation();
-        e.preventDefault();
-        applyShakeAnimation(container);
-      }
-    });
+    if (button) {
+      button.addEventListener('click', function(e) {
+        if (phrases.includes(input.value)) {
+          e.stopImmediatePropagation();
+          e.preventDefault();
+          applyShakeAnimation(container);
+        }
+      });
+    }
   
     input.addEventListener('keyup', function() {
+      console.log('input keyup this.value:', this.value);
       if (phrases.includes(this.value)) {
         getElement(site, 'getsRedBorder').classList.add('red-border');
         getElement(site, 'ddContainer').classList.add('hide');
