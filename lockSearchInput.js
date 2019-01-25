@@ -136,7 +136,6 @@ chrome.runtime.onMessage.addListener((message, sender, sendResponse) => {
 
   chrome.storage.sync.get(['antiVanitySites', 'antiVanityPhrases'], (result) => {
     let site = result.antiVanitySites.filter((site) => url.includes(site.host))[0].name;
-    console.log('site:', site);
     let phrases = result.antiVanityPhrases;
 
     let container = getElement(site, 'container');
@@ -184,7 +183,6 @@ chrome.runtime.onMessage.addListener((message, sender, sendResponse) => {
     }
   
     input.addEventListener('keyup', function() {
-      console.log('input keyup this.value:', this.value);
       if (phrases.includes(this.value)) {
         getElement(site, 'getsRedBorder').classList.add('red-border');
         getElement(site, 'ddContainer').classList.add('hide');

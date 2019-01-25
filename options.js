@@ -47,7 +47,7 @@ phraseInput.addEventListener('keydown', function(e) {
         let phraseList = document.getElementById('phraselist');
         let phraseListItem = document.createElement('li');
         phraseListItem.className = 'phrase';
-        phraseListItem.innerHTML = `<span></span><span>${this.value}</span>`;
+        phraseListItem.innerHTML = `<span></span><span>"${this.value}"</span>`;
         let closeIcon = document.createElement('i');
         closeIcon.className = 'fas fa-times-circle';
         closeIcon.addEventListener('click', function() {
@@ -108,7 +108,7 @@ chrome.storage.sync.get(['antiVanityPhrases'], (result) => {
   phrases.forEach((phrase) => {
     let phraseListItem = document.createElement('li');
     phraseListItem.className = 'phrase';
-    phraseListItem.innerHTML = `<span></span><span>${phrase}</span>`;
+    phraseListItem.innerHTML = `<span></span><span>"${phrase}"</span>`;
     let closeIcon = document.createElement('i');
     closeIcon.className = 'fas fa-times-circle';
     closeIcon.addEventListener('click', function() {
