@@ -28,7 +28,7 @@ chrome.storage.sync.set({
   'antiVanityPhrases': [
     'cyghfer',
     'krysrltal',
-    'wq'
+    '/wq+/'
   ]
 });
 
@@ -36,18 +36,19 @@ let phraseInput = document.getElementsByClassName('phrases-input')[0];
 
 phraseInput.addEventListener('keydown', function(e) {
   if (e.key === 'Enter') {
+    let phrase = this.value;
     chrome.storage.sync.get(['antiVanityPhrases'], (result) => {
       let phrases = result.antiVanityPhrases;
-      if (phrases.includes(this.value)) {
+      if (phrases.includes(phrase)) {
         this.value = '';
         return;
       }
-      let newPhrasesArr = phrases.concat(this.value);
+      let newPhrasesArr = phrases.concat(phrase);
       chrome.storage.sync.set({'antiVanityPhrases': newPhrasesArr}, () => {
         let phraseList = document.getElementById('phraselist');
         let phraseListItem = document.createElement('li');
-        phraseListItem.className = 'phrase';
-        phraseListItem.innerHTML = `<span></span><span>"${this.value}"</span>`;
+        phraseListItem.className = phrase[0] === '/' && phrase[phrase.length - 1] === '/' ? 'phrase regex' : 'phrase literal';
+        phraseListItem.innerHTML = `<span></span><span>${phrase}</span>`;
         let closeIcon = document.createElement('i');
         closeIcon.className = 'fas fa-times-circle';
         closeIcon.addEventListener('click', function() {
@@ -72,10 +73,9 @@ phraseInput.addEventListener('keydown', function(e) {
   }
 })
 
-let siteList = document.getElementById('sitelist');
-
 chrome.storage.sync.get(['antiVanitySites'], (result) => {
   let sites = Object.keys(result).length > 0 ? result.antiVanitySites : [];
+  let siteList = document.getElementById('sitelist');
 
   sites.forEach((site) => {
     let siteListItem = document.createElement('li');
@@ -100,15 +100,14 @@ chrome.storage.sync.get(['antiVanitySites'], (result) => {
   });
 });
 
-let phraseList = document.getElementById('phraselist')
-
 chrome.storage.sync.get(['antiVanityPhrases'], (result) => {
   let phrases = Object.keys(result).length > 0 ? result.antiVanityPhrases : [];
+  let phraseList = document.getElementById('phraselist');
 
   phrases.forEach((phrase) => {
     let phraseListItem = document.createElement('li');
-    phraseListItem.className = 'phrase';
-    phraseListItem.innerHTML = `<span></span><span>"${phrase}"</span>`;
+    phraseListItem.className = phrase[0] === '/' && phrase[phrase.length - 1] === '/' ? 'phrase regex' : 'phrase literal';
+    phraseListItem.innerHTML = `<span></span><span>${phrase}</span>`;
     let closeIcon = document.createElement('i');
     closeIcon.className = 'fas fa-times-circle';
     closeIcon.addEventListener('click', function() {

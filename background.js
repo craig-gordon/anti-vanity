@@ -1,3 +1,7 @@
+chrome.runtime.onInstalled.addListener((details) => {
+  if (details.reason === 'install') chrome.runtime.openOptionsPage();
+});
+
 chrome.tabs.onUpdated.addListener((tabId, changeInfo) => {
   console.log('changeInfo:', changeInfo);
   if (changeInfo.status !== 'complete') return;
@@ -10,7 +14,7 @@ chrome.tabs.onUpdated.addListener((tabId, changeInfo) => {
 
     chrome.storage.sync.get(['antiVanitySites'], (result) => {
       let sites = Object.keys(result).length > 0 ? result.antiVanitySites : [];
-      let isSiteActive = sites.filter((site) => url.includes(site.host) && site.active).length > 0;
+      let isSiteActive = sites.some((site) => url.includes(site.host) && site.active);
 
       if (isSiteActive) {
         window.antiVanityScriptsLoaded[tabId.toString()] = true;
@@ -21,8 +25,4 @@ chrome.tabs.onUpdated.addListener((tabId, changeInfo) => {
       }
     });
   });
-});
-
-chrome.runtime.onInstalled.addListener((details) => {
-  if (details.reason === 'install') chrome.runtime.openOptionsPage();
 });

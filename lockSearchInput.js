@@ -121,6 +121,8 @@ const layouts = {
   }
 };
 
+// UTILITY METHODS
+
 const getElement = (site, type) => {
   if (!layouts[site][type]) return null;
   let idx = 0;
@@ -129,6 +131,17 @@ const getElement = (site, type) => {
     ? document[layouts[site][type].method](layouts[site][type].str)[idx]
     : document[layouts[site][type].method](layouts[site][type].str);
 };
+
+const checkPhraseMatch = (phrase, input) => {
+  // RegEx case
+  if (phrase[0] === '/' && phrase[phrase.length - 1] === '/') {
+    return new RegExp(phrase.slice(1, -1)).test(input);
+  }
+  // String Literal case
+  else {
+    return phrase === input;
+  }
+}
 
 chrome.runtime.onMessage.addListener((message, sender, sendResponse) => {
   console.log('message:', message);
@@ -147,7 +160,7 @@ chrome.runtime.onMessage.addListener((message, sender, sendResponse) => {
     customMessageListItem.textContent = 'Dissolve the ego, young padawan.';
     
 
-    // METHODS
+    // DOM MANIPULATION METHODS
   
     const applyShakeAnimation = (element) => {
       element.classList.add('shake');
@@ -170,11 +183,11 @@ chrome.runtime.onMessage.addListener((message, sender, sendResponse) => {
     };
 
 
-    // EVENT LISTENERS
+    // DOM EVENT LISTENERS
   
     if (button) {
       button.addEventListener('click', function(e) {
-        if (phrases.includes(input.value)) {
+        if (phrases.some((phrase) => checkPhraseMatch(phrase, input.value))) {
           e.stopImmediatePropagation();
           e.preventDefault();
           applyShakeAnimation(container);
@@ -183,7 +196,7 @@ chrome.runtime.onMessage.addListener((message, sender, sendResponse) => {
     }
   
     input.addEventListener('keyup', function() {
-      if (phrases.includes(this.value)) {
+      if (phrases.some((phrase) => checkPhraseMatch(phrase, input.value))) {
         getElement(site, 'getsRedBorder').classList.add('red-border');
         getElement(site, 'ddContainer').classList.add('hide');
         addCustomMessageListItem();
@@ -195,7 +208,7 @@ chrome.runtime.onMessage.addListener((message, sender, sendResponse) => {
     });
   
     input.addEventListener('keydown', function(e) {
-      if (phrases.includes(this.value) && e.key === 'Enter') {
+      if (e.key === 'Enter' && phrases.some((phrase) => checkPhraseMatch(phrase, input.value))) {
         e.stopImmediatePropagation();
         e.preventDefault();
         applyShakeAnimation(container);

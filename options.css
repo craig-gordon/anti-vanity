@@ -114,7 +114,7 @@ ul#phraselist {
   margin: 0 20px 20px 20px;
 }
 
-ul#phraselist > .phrase {
+.phrase {
   display: grid;
   grid-template-columns: repeat(3, 1fr);
   align-items: center;
@@ -122,10 +122,18 @@ ul#phraselist > .phrase {
   color: rgb(189, 189, 189);
   font-size: 20px;
   font-weight: bold;
-  border: 2px solid rgb(105, 9, 9);
   border-radius: 4px;
-  background-color: rgb(76, 4, 4);
   padding: 10px 0;
+}
+
+.phrase.regex {
+  border: 2px solid rgb(109, 60, 0);
+  background-color: rgb(76, 35, 0);
+}
+
+.phrase.literal {
+  border: 2px solid rgb(105, 0, 105);
+  background-color: rgb(62, 0, 62);
 }
 
 .phrase > span {
