@@ -1,37 +1,3 @@
-chrome.storage.sync.set({
-  'antiVanitySites': [
-    {
-      name: 'Twitter',
-      host: 'twitter.com',
-      icon: '<i class="fab fa-twitter"></i>',
-      active: true
-    },
-    {
-      name: 'Google',
-      host: 'google.com',
-      icon: '<i class="fab fa-google"></i>',
-      active: true
-    },
-    {
-      name: 'Reddit',
-      host: 'reddit.com',
-      icon: '<i class="fab fa-reddit-alien"></i>',
-      active: true
-    },
-    {
-      name: 'Tumblr',
-      host: 'tumblr.com',
-      icon: '<i class="fab fa-tumblr"></i>',
-      active: true
-    }
-  ],
-  'antiVanityPhrases': [
-    'cyghfer',
-    'krysrltal',
-    '/wq+/'
-  ]
-});
-
 let phraseInput = document.getElementsByClassName('phrases-input')[0];
 
 phraseInput.addEventListener('keydown', function(e) {

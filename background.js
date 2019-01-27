@@ -1,5 +1,36 @@
 chrome.runtime.onInstalled.addListener((details) => {
-  if (details.reason === 'install') chrome.runtime.openOptionsPage();
+  if (details.reason === 'install') {
+    chrome.storage.sync.set({
+      'antiVanitySites': [
+        {
+          name: 'Google',
+          host: 'google.com',
+          icon: '<i class="fab fa-google"></i>',
+          active: false
+        },
+        {
+          name: 'Twitter',
+          host: 'twitter.com',
+          icon: '<i class="fab fa-twitter"></i>',
+          active: false
+        },
+        {
+          name: 'Reddit',
+          host: 'reddit.com',
+          icon: '<i class="fab fa-reddit-alien"></i>',
+          active: false
+        },
+        {
+          name: 'Tumblr',
+          host: 'tumblr.com',
+          icon: '<i class="fab fa-tumblr"></i>',
+          active: false
+        }
+      ]
+    }, () => {
+      chrome.runtime.openOptionsPage();
+    });
+  }
 });
 
 chrome.tabs.onUpdated.addListener((tabId, changeInfo) => {

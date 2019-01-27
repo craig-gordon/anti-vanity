@@ -10,10 +10,14 @@
     <div class='container'>
       <div class='column'>
         <div class='column-header'><h2>Sites</h2></div>
+        <p>Click a site panel to toggle the site <span class='active-p'>active</span> or <span class='inactive-p'>inactive</span>.</p>
+        <p>On active sites, all active phrases will be blocked in the global search bar.</p>
         <ul id='sitelist'></ul>
       </div>
       <div class='column'>
         <div class='column-header'><h2>Phrases</h2></div>
+        <p>You can use a <span class='regex-p'>Regular Expression</span> with this formatting: <span class='regex-example'>/myregexp/</span></p>
+        <p>Otherwise, only the <span class='literal-p'>exact phrase</span> will be checked.</p> 
         <input class='phrases-input' placeholder='Enter phrase to blacklist' />
         <ul id='phraselist'></ul>
       </div>

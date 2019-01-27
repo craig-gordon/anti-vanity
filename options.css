@@ -1,6 +1,6 @@
 body {
   background-color: rgb(31, 31, 31);
-  color: rgb(216, 216, 216);
+  color: rgb(158, 158, 158);
   text-align: center;
   margin: 5% 15% 0 15%;
 }
@@ -12,7 +12,7 @@ h1 {
 h2 {
   margin: 0;
   font-size: 20px;
-  color: rgba(245, 245, 245, 0.65);
+  color: rgba(191, 191, 191, 0.65);
 }
 
 .container {
@@ -31,7 +31,7 @@ h2 {
 .column-header {
   padding: 6px 0;
   border-bottom: 2px solid rgb(64, 64, 64);
-  margin-bottom: 20px;
+  margin-bottom: 16px;
   background-color: rgb(35, 35, 35);
 }
 
@@ -44,6 +44,7 @@ input {
   border: 3px solid rgb(105, 105, 105);
   border-radius: 24px;
   padding: 9px 24px 9.5px 24px;
+  margin-top: 16px;
   margin-bottom: 20px;
 }
 
@@ -55,9 +56,50 @@ input:focus {
   outline: none;
 }
 
+p {
+  font-size: 16px;
+  line-height: 1.7;
+  margin: 0;
+  color: rgb(134, 134, 134);
+}
+
+.active-p {
+  border: 2px solid rgb(105, 9, 9);
+  border-radius: 4px;
+  padding: 0 4px 1px 4px;
+  background-color: rgb(76, 4, 4);
+}
+
+.inactive-p {
+  border: 2px solid rgba(105, 9, 9, 0.3);
+  border-radius: 4px;
+  padding: 0 4px 1px 4px;
+  background-color: rgba(76, 4, 4, 0.3);
+}
+
+.regex-p {
+  border: 2px solid rgb(109, 60, 0);
+  border-radius: 4px;
+  padding: 0 4px 1px 4px;
+  background-color: rgb(76, 35, 0);
+}
+
+.regex-example {
+  margin-left: 12px;
+  color: rgb(193, 193, 193);
+}
+
+.literal-p {
+  border: 2px solid rgb(105, 0, 105);
+  border-radius: 4px;
+  padding: 0 4px 1px 4px;
+  background-color: rgb(62, 0, 62);
+}
+
 ul {
   list-style-type: none;
   padding-inline-start: 0;
+  margin-top: 16px;
 }
 
 li.site {
@@ -65,7 +107,7 @@ li.site {
   align-items: center;
   justify-content: center;
   height: 30px;
-  color: rgb(189, 189, 189);
+  color: rgb(175, 175, 175);
   font-size: 20px;
   font-weight: bold;
   border: 2px solid;
@@ -99,7 +141,7 @@ li.site > i {
 }
 
 li.site.active > i {
-  color: rgb(189, 189, 189);
+  color: rgb(138, 138, 138);
 }
 
 li.site.inactive * {
@@ -119,7 +161,7 @@ ul#phraselist {
   grid-template-columns: repeat(3, 1fr);
   align-items: center;
   height: 30px;
-  color: rgb(189, 189, 189);
+  color: rgb(175, 175, 175);
   font-size: 20px;
   font-weight: bold;
   border-radius: 4px;
