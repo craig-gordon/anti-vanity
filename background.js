@@ -6,25 +6,25 @@ chrome.runtime.onInstalled.addListener((details) => {
           name: 'Google',
           host: 'google.com',
           icon: '<i class="fab fa-google"></i>',
-          active: false
+          active: true
         },
         {
           name: 'Twitter',
           host: 'twitter.com',
           icon: '<i class="fab fa-twitter"></i>',
-          active: false
+          active: true
         },
         {
           name: 'Reddit',
           host: 'reddit.com',
           icon: '<i class="fab fa-reddit-alien"></i>',
-          active: false
+          active: true
         },
         {
           name: 'Tumblr',
           host: 'tumblr.com',
           icon: '<i class="fab fa-tumblr"></i>',
-          active: false
+          active: true
         }
       ]
     }, () => {
@@ -34,7 +34,6 @@ chrome.runtime.onInstalled.addListener((details) => {
 });
 
 chrome.tabs.onUpdated.addListener((tabId, changeInfo) => {
-  console.log('changeInfo:', changeInfo);
   if (changeInfo.status !== 'complete') return;
 
   window.antiVanityScriptsLoaded = window.antiVanityScriptsLoaded || {};

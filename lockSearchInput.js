@@ -27,7 +27,7 @@ const layouts = {
     },
     'ddList': {
       method: 'getElementsByClassName',
-      str: 'typeahead-items typeahead-accounts social-context js-typeahead-accounts block4 has-results',
+      str: 'typeahead-items typeahead-topics block3',
       isArr: true
     }
   },
@@ -144,7 +144,6 @@ const checkPhraseMatch = (phrase, input) => {
 }
 
 chrome.runtime.onMessage.addListener((message, sender, sendResponse) => {
-  console.log('message:', message);
   let url = message.url;
 
   chrome.storage.sync.get(['antiVanitySites', 'antiVanityPhrases'], (result) => {
@@ -168,17 +167,17 @@ chrome.runtime.onMessage.addListener((message, sender, sendResponse) => {
     };
   
     const addCustomMessageListItem = () => {
-      let dropdown = getElement(site, 'ddList');
-      if (dropdown.lastChild.className === 'custom') {
+      let ddList = getElement(site, 'ddList');
+      if (ddList.lastChild && ddList.lastChild.className === 'custom') {
         return;
       }
-      dropdown.appendChild(customMessageListItem);
+      ddList.appendChild(customMessageListItem);
     };
   
     const removeCustomMessageListItem = () => {
-      let dropdown = getElement(site, 'ddList');
-      if (dropdown && dropdown.lastChild.className === 'custom') {
-        dropdown.removeChild(dropdown.lastChild);
+      let ddList = getElement(site, 'ddList');
+      if (ddList.lastChild && ddList.lastChild.className === 'custom') {
+        ddList.removeChild(ddList.lastChild);
       }
     };
 
@@ -199,7 +198,7 @@ chrome.runtime.onMessage.addListener((message, sender, sendResponse) => {
       if (phrases.some((phrase) => checkPhraseMatch(phrase, input.value))) {
         getElement(site, 'getsRedBorder').classList.add('red-border');
         getElement(site, 'ddContainer').classList.add('hide');
-        addCustomMessageListItem();
+        setTimeout(addCustomMessageListItem, 500);
       } else {
         getElement(site, 'getsRedBorder').classList.remove('red-border');
         getElement(site, 'ddContainer').classList.remove('hide');

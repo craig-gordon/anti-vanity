@@ -4,7 +4,7 @@ phraseInput.addEventListener('keydown', function(e) {
   if (e.key === 'Enter') {
     let phrase = this.value;
     chrome.storage.sync.get(['antiVanityPhrases'], (result) => {
-      let phrases = result.antiVanityPhrases;
+      let phrases = result.antiVanityPhrases || [];
       if (phrases.includes(phrase)) {
         this.value = '';
         return;
@@ -19,7 +19,7 @@ phraseInput.addEventListener('keydown', function(e) {
         closeIcon.className = 'fas fa-times-circle';
         closeIcon.addEventListener('click', function() {
           chrome.storage.sync.get(['antiVanityPhrases'], (result) => {
-            let phrases = result.antiVanityPhrases;
+            let phrases = result.antiVanityPhrases || [];
             let idx;
             phrases.forEach((phrase, i) => {
               if (this.previousSibling.innerHTML === phrase) idx = i;
@@ -78,7 +78,7 @@ chrome.storage.sync.get(['antiVanityPhrases'], (result) => {
     closeIcon.className = 'fas fa-times-circle';
     closeIcon.addEventListener('click', function() {
       chrome.storage.sync.get(['antiVanityPhrases'], (result) => {
-        let phrases = result.antiVanityPhrases;
+        let phrases = result.antiVanityPhrases || [];
         let idx;
         phrases.forEach((phrase, i) => {
           if (this.previousSibling.innerHTML === phrase) idx = i;

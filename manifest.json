@@ -1,7 +1,7 @@
 {
   "name": "Anti-Vanity",
   "description" : "Prevent vanity searching and other time- and energy-wasting activities.",
-  "version": "1.0",
+  "version": "1.0.0",
   "manifest_version": 2,
   "permissions": [
     "http://*/",

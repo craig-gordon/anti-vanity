@@ -26,12 +26,20 @@
 }
 
 /* TWITTER */
+.dropdown-menu.typeahead.hide {
+  display: block !important;
+}
+
 .dropdown-menu.typeahead.hide .block0,
 .dropdown-menu.typeahead.hide .block1,
 .dropdown-menu.typeahead.hide .block2,
-.dropdown-menu.typeahead.hide .block3,
-.dropdown-menu.typeahead.hide .js-selectable {
+.dropdown-menu.typeahead.hide .block4,
+.dropdown-menu.typeahead.hide .typeahead-item.typeahead-topic-item {
   display: none !important;
+}
+
+.dropdown-menu.typeahead.hide .block3 {
+  display: block !important;
 }
 
 /* GOOGLE */
